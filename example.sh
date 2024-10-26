@@ -1,0 +1,1 @@
+py3 mcta_cli.py --verbose --showfigs --figs2png --memdump AD2
