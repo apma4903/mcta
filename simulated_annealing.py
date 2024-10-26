@@ -214,7 +214,11 @@ def solve_annealing_problem(lengths, lanes, P, VehiclesCount=1,
         results["KemenyConst"] = K
     
     if "E" in Objectives:
-        results["TotalNetworkEmissionCost"] = np.sum(best_densities * lengths)
+        # FAIL: results["TotalNetworkEmissionCost"] = np.sum(best_densities * lengths)
+        import emissions as _em
+        Speeds, _ = _em.Speed_via_Density(best_densities, "veh/(km.lane)", FreeFlowSpeeds, "km/h")
+        EC, _ = _em.ExternalCost(Speeds, "km/h", Method="TRANSYT7f")
+        results["TotalNetworkEmissionCost"] = sum(EC * lengths * best_densities * Speeds)
     
     print(f"\nOptimization complete! Best density: {best_density:.2f}")
     print(f"Total iterations: {total_iterations}")
