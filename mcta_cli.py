@@ -52,6 +52,8 @@ import scipy as sp
 
 # added for updating
 import numpy as np
+from SLSQP import solve_SLSQP_problem  # Step 1: Import SLSQP function
+
 
 # options
 verbose = False
@@ -105,7 +107,9 @@ if __name__ == "__main__":
     ProcessCLI()
     (Settings, GeoJSON) = mcta_rw.LoadDataFiles(base)
     lengths, lanes, FFS, P = mcta.SetupMCTA(GeoJSON, Verbose=verbose)
-    Results = mcta.SolveMCTA(
+
+    # SLSQP Solution
+    Results_SLSQP = solve_SLSQP_problem(
         lengths=lengths,
         lanes=lanes,
         P=P,
@@ -114,17 +118,34 @@ if __name__ == "__main__":
         FreeFlowSpeeds=FFS,
         SkipChecksForSpeed=False,
     )
+    # GA solution
+    Results_GA = mcta.SolveMCTA(
+        lengths=lengths,
+        lanes=lanes,
+        P=P,
+        VehiclesCount=GeoJSON["mcta_json"]["VehiclesCountEst"],
+        Objectives=["D", "K", "C", "PI", "E"],
+        FreeFlowSpeeds=FFS,
+        SkipChecksForSpeed=False,
+    )
+
+    # Comparison of Results
+    print("\n=== Comparison of GA and SLSQP Solutions ===")
+    print(f"GA Total Cost: {Results_GA['TotalNetworkEmissionCost']:.2f} $/hr")
+    # uncomment when solved
+    print(f"SLSQP Total Cost: {Results_SLSQP['TotalNetworkEmissionCost']:.2f} $/hr")
+
     if savememdump:
-        mcta_rw.SaveResults(Results)
+        mcta_rw.SaveResults(Results_GA)
     if showfigs or figs2png:
         mcta_vis.Initialize(
             GeoJSON, Settings, base, ShowFigs=showfigs, SaveFigs2PNG=figs2png
         )
-    for x in Results.keys():
+    for x in Results_GA.keys():
         if x not in ["linkIDs", "P_org", "P_updated", "eigenvalues"]:
-            print(f"\n{x}: {Results[x]}")
+            print(f"\n{x}: {Results_GA[x]}")
             if showfigs or figs2png:
-                mcta_vis.Generate_Figure(Results, x)
+                mcta_vis.Generate_Figure(Results_GA, x)
     if showfigs:
         import matplotlib.pyplot as plt
 
