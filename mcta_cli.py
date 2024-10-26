@@ -52,7 +52,8 @@ import scipy as sp
 
 # added for updating
 import numpy as np
-from SLSQP import solve_SLSQP_problem  # Step 1: Import SLSQP function
+#from SLSQP import solve_SLSQP_problem  # Step 1: Import SLSQP function
+from simulated_annealing import solve_annealing_problem as solve_SLSQP_problem
 
 
 # options
@@ -114,10 +115,11 @@ if __name__ == "__main__":
         lanes=lanes,
         P=P,
         VehiclesCount=GeoJSON["mcta_json"]["VehiclesCountEst"],
-        Objectives=["D", "K", "C", "PI", "E"],
+        Objectives=["D","K","C","PI","E"],
         FreeFlowSpeeds=FFS,
         SkipChecksForSpeed=False,
     )
+        #max_iterations=200  # Added parameter
     # GA solution
     Results_GA = mcta.SolveMCTA(
         lengths=lengths,
