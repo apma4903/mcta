@@ -52,8 +52,8 @@ import scipy as sp
 
 # added for updating
 import numpy as np
-#from SLSQP import solve_SLSQP_problem  # Step 1: Import SLSQP function
-from simulated_annealing import solve_annealing_problem as solve_SLSQP_problem
+#from simulated_annealing import solve_simulated_annealing_problem  # Step 1: Import simulated_annealing function
+from simulated_annealing import solve_annealing_problem as solve_simulated_annealing_problem
 
 
 # options
@@ -109,8 +109,8 @@ if __name__ == "__main__":
     (Settings, GeoJSON) = mcta_rw.LoadDataFiles(base)
     lengths, lanes, FFS, P = mcta.SetupMCTA(GeoJSON, Verbose=verbose)
 
-    # SLSQP Solution
-    Results_SLSQP = solve_SLSQP_problem(
+    # simulated_annealing Solution
+    Results_simulated_annealing = solve_simulated_annealing_problem(
         lengths=lengths,
         lanes=lanes,
         P=P,
@@ -132,10 +132,10 @@ if __name__ == "__main__":
     )
 
     # Comparison of Results
-    print("\n=== Comparison of GA and SLSQP Solutions ===")
+    print("\n=== Comparison of GA and simulated_annealing Solutions ===")
     print(f"GA Total Cost: {Results_GA['TotalNetworkEmissionCost']:.2f} $/hr")
     # uncomment when solved
-    print(f"SLSQP Total Cost: {Results_SLSQP['TotalNetworkEmissionCost']:.2f} $/hr")
+    print(f"simulated_annealing Total Cost: {Results_simulated_annealing['TotalNetworkEmissionCost']:.2f} $/hr")
 
     if savememdump:
         mcta_rw.SaveResults(Results_GA)
