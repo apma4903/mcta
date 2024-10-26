@@ -24,6 +24,7 @@ import os as _os
 import scipy as _sp
 import scipy.sparse as _sprs
 import emissions as _em
+
 # NEW
 import numpy as np
 
@@ -467,12 +468,16 @@ def SolveMCTA(
             print(
                 f"\tMin/Avg/Max vehicle emission cost on a road (based on its speed): {min(EC):.5f}/{EC.mean():.5f}/{max(EC):.5f} g/(km.veh)"
             )
-            if 'EmissionCost' in _results and 'TotalNetworkEmissionCost' in _results:
-                print(f"\tMin/Avg/Max link emissions cost: {min(_results['EmissionCost']):.2f}/{_results['EmissionCost'].mean():.2f}/{max(_results['EmissionCost']):.2f} $/km")
-                print(f"\tTotal network emission cost: {_results['TotalNetworkEmissionCost']:.2f} $/hr")
+            if "EmissionCost" in _results and "TotalNetworkEmissionCost" in _results:
+                print(
+                    f"\tMin/Avg/Max link emissions cost: {min(_results['EmissionCost']):.2f}/{_results['EmissionCost'].mean():.2f}/{max(_results['EmissionCost']):.2f} $/km"
+                )
+                print(
+                    f"\tTotal network emission cost: {_results['TotalNetworkEmissionCost']:.2f} $/hr"
+                )
             else:
                 print("\tEmission cost data is not available.")
-            
+
             print(
                 f"\tTotal network emission cost: {_results['TotalNetworkEmissionCost']:.2f} $/hr"
             )

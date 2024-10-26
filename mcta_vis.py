@@ -160,7 +160,9 @@ def new_RenderMap(data, title, xlabel, limit):
         cb = ax.imshow(data, cmap="viridis", vmin=limit[0], vmax=limit[1])
         ax.set_ylabel("Row index")
         # _plt.colorbar(cb)  # , orientation='horizontal')
-        plt.colorbar(cb, ax=ax)  # Explicitly specify the axes to associate with the colorbar
+        plt.colorbar(
+            cb, ax=ax
+        )  # Explicitly specify the axes to associate with the colorbar
 
     plt.show()
 
@@ -246,7 +248,7 @@ def _RenderMap(X, Title="RoadNetwork", LinkEndMark="s", Limit=0):
             picker=5,
         )
         ln.name = "line:" + str(ID)
-    _plt.colorbar(cb,ax=ax)  # , orientation='horizontal')
+    _plt.colorbar(cb, ax=ax)  # , orientation='horizontal')
     _plt.axis("off")
     fig.canvas.mpl_connect("pick_event", _onpickMap)
     _Show_Save_Fig()

@@ -49,6 +49,7 @@ import mcta
 import mcta_vis
 import mcta_rw
 import scipy as sp
+
 # added for updating
 import numpy as np
 
@@ -61,8 +62,8 @@ savememdump = False
 # global variables
 base = None
 
-#OLD: sp.set_printoptions(suppress=True, precision=3, linewidth=140)
-#NEW:
+# OLD: sp.set_printoptions(suppress=True, precision=3, linewidth=140)
+# NEW:
 np.set_printoptions(suppress=True, precision=3, linewidth=140)
 
 
